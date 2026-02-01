@@ -236,7 +236,6 @@ async def root():
     }
 
 
-
 @app.get("/api/health", response_model=HealthResponse)
 async def health_check():
     """

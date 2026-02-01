@@ -258,9 +258,9 @@ function App() {
     <div style={styles.container}>
       {/* Header */}
       <header style={styles.header}>
-        <h1 style={styles.title}>🎫 Jira Ticket Generator</h1>
+        <h1 style={styles.title}> Jira Ticket Generator</h1>
         <p style={styles.subtitle}>
-          Generate professional Jira tickets using AI-powered RAG
+          Use RAG To create Jira ticket in project
         </p>
       </header>
 
@@ -323,16 +323,16 @@ function App() {
           
           <div style={styles.metadata}>
             <span style={styles.metaItem}>
-              📊 Style: {result.style_detected}
+               Style: {result.style_detected}
             </span>
             <span style={styles.metaItem}>
-              🔧 Refined: {result.refinement_applied ? 'Yes' : 'No'}
+               Refined: {result.refinement_applied ? 'Yes' : 'No'}
             </span>
             <span style={styles.metaItem}>
-              ⏱️ Time: {result.metadata?.elapsed_seconds?.toFixed(2)}s
+               Time: {result.metadata?.elapsed_seconds?.toFixed(2)}s
             </span>
             <span style={styles.metaItem}>
-              📚 Context: {result.retrieved_chunks?.length || 0} tickets
+              Context: {result.retrieved_chunks?.length || 0} tickets
             </span>
           </div>
           
@@ -370,7 +370,7 @@ function App() {
 
       {/* Footer */}
       <footer style={{ textAlign: 'center', marginTop: '40px', color: '#666', fontSize: '0.875rem' }}>
-        Powered by LangChain + Gemini • Built with ❤️ for better ticket creation
+        Powered by LangChain + Gemini
       </footer>
     </div>
   );
