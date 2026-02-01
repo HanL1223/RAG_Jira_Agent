@@ -41,11 +41,11 @@ PROJECT_ROOT = Path(__file__).parent.parent
 sys.path.insert(0, str(PROJECT_ROOT))
 
 from src.config import settings
-from src.pipeline import (
+from src.pipeline.generation import (
     JiraTicketPipeline,
     PipelineConfig,
     GenerationResult,
-    get_pipeline,
+    generate_ticket,
 )
 from src.retrieval import create_retriever
 
