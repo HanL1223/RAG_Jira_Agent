@@ -226,6 +226,15 @@ app.add_middleware(
 # =============================================================================
 # SECTION 6: API ENDPOINTS
 # =============================================================================
+@app.get("/")
+async def root():
+    """Root endpoint - redirect to docs."""
+    return {
+        "message": "Jira Ticket RAG API",
+        "docs": "/docs",
+        "health": "/api/health",
+    }
+
 
 
 @app.get("/api/health", response_model=HealthResponse)
@@ -238,7 +247,7 @@ async def health_check():
     return HealthResponse(
         status="healthy",
         model=settings.llm.model,
-        collection=settings.chroma.collection_name,
+        collection=settings.chroma.collection,
     )
 
 
