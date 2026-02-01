@@ -46,6 +46,7 @@ from src.pipeline.generation import (
     PipelineConfig,
     GenerationResult,
     generate_ticket,
+    get_pipeline
 )
 from src.retrieval import create_retriever
 
