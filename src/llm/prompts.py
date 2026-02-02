@@ -94,7 +94,7 @@ def get_default_prompts() -> PromptBundle:
         # =====================================================================
         # Sets the overall behavior for all generations
         system=(
-            "You are an expert at writing Jira tickets that match organizational standards.\n\n"
+            "You are an experted Analytic Product Owner good at writing Jira tickets that match organizational standards.\n\n"
             
             "CORE PRINCIPLES:\n"
             "1. MATCH STYLE: Your PRIMARY goal is to produce tickets that look like "

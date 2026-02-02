@@ -4,7 +4,34 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Jira Ticket Generator</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     <style>
+        :root {
+            /* Backgrounds */
+            --bg-main: #242629;
+            --bg-card: #16161a;
+            
+            /* Text */
+            --text-headline: #fffffe;
+            --text-paragraph: #94a1b2;
+            
+            /* Accents */
+            --accent-purple: #7f5af0;
+            --accent-green: #2cb67d;
+            --accent-secondary: #72757e;
+            
+            /* Utility */
+            --stroke: #010101;
+            --white: #fffffe;
+            
+            /* Shadows */
+            --shadow-sm: 0 2px 4px rgba(1, 1, 1, 0.3);
+            --shadow-md: 0 4px 12px rgba(1, 1, 1, 0.4);
+            --shadow-lg: 0 8px 24px rgba(1, 1, 1, 0.5);
+        }
+
         * {
             margin: 0;
             padding: 0;
@@ -12,185 +39,218 @@
         }
 
         body {
-            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-            background: #f5f5f5;
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: var(--bg-main);
+            color: var(--text-paragraph);
             min-height: 100vh;
-            color: #1e1e1e;
+            line-height: 1.6;
         }
 
         .container {
-            max-width: 720px;
+            max-width: 800px;
             margin: 0 auto;
-            padding: 48px 24px;
+            padding: 40px 24px;
         }
 
+        /* Header */
         .header {
-            margin-bottom: 32px;
+            text-align: center;
+            margin-bottom: 48px;
         }
 
         .header h1 {
-            font-size: 28px;
-            font-weight: 600;
-            color: #1e1e1e;
-            margin-bottom: 8px;
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: var(--text-headline);
+            margin-bottom: 16px;
+            letter-spacing: -0.02em;
         }
 
-        .header p {
-            color: #666;
-            font-size: 15px;
-        }
-
+        /* Status Badge */
         .status {
             display: inline-flex;
             align-items: center;
-            gap: 6px;
-            font-size: 12px;
-            color: #666;
-            margin-top: 12px;
-            padding: 6px 12px;
-            background: white;
-            border-radius: 100px;
-            border: 1px solid #e5e5e5;
+            gap: 8px;
+            background: var(--bg-card);
+            padding: 8px 16px;
+            border-radius: 50px;
+            font-size: 0.875rem;
+            border: 1px solid rgba(148, 161, 178, 0.1);
         }
 
         .status-dot {
-            width: 6px;
-            height: 6px;
+            width: 8px;
+            height: 8px;
             border-radius: 50%;
-            background: #1bc47d;
+            background: var(--accent-green);
+            animation: pulse 2s infinite;
         }
 
         .status-dot.offline {
-            background: #f24822;
+            background: var(--accent-secondary);
+            animation: none;
         }
 
+        @keyframes pulse {
+            0%, 100% { opacity: 1; transform: scale(1); }
+            50% { opacity: 0.6; transform: scale(1.1); }
+        }
+
+        /* Card Styles */
         .card {
-            background: white;
-            border-radius: 12px;
-            border: 1px solid #e5e5e5;
-            overflow: hidden;
+            background: var(--bg-card);
+            border-radius: 16px;
+            padding: 32px;
+            margin-bottom: 24px;
+            border: 1px solid rgba(148, 161, 178, 0.08);
+            box-shadow: var(--shadow-md);
         }
 
-        .card-body {
-            padding: 24px;
+        .card-label {
+            font-size: 0.875rem;
+            font-weight: 600;
+            color: var(--text-headline);
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            margin-bottom: 16px;
         }
 
-        .input-group {
-            margin-bottom: 20px;
-        }
-
-        .input-group label {
-            display: block;
-            font-size: 13px;
-            font-weight: 500;
-            color: #1e1e1e;
-            margin-bottom: 8px;
-        }
-
-        .input-group textarea {
+        /* Form Elements */
+        textarea {
             width: 100%;
-            padding: 12px 14px;
-            border: 1px solid #e5e5e5;
-            border-radius: 8px;
-            font-size: 14px;
+            min-height: 160px;
+            padding: 20px;
             font-family: inherit;
+            font-size: 1rem;
+            line-height: 1.6;
+            color: var(--text-headline);
+            background: var(--bg-main);
+            border: 2px solid rgba(148, 161, 178, 0.15);
+            border-radius: 12px;
             resize: vertical;
-            min-height: 140px;
-            transition: border-color 0.15s, box-shadow 0.15s;
-            background: #fafafa;
+            transition: all 0.2s ease;
         }
 
-        .input-group textarea:focus {
+        textarea:focus {
             outline: none;
-            border-color: #0d99ff;
-            box-shadow: 0 0 0 3px rgba(13, 153, 255, 0.1);
-            background: white;
+            border-color: var(--accent-purple);
+            box-shadow: 0 0 0 4px rgba(127, 90, 240, 0.15);
         }
 
-        .input-group textarea::placeholder {
-            color: #999;
+        textarea::placeholder {
+            color: var(--accent-secondary);
         }
 
+        /* Checkbox Styles */
         .options {
             display: flex;
-            gap: 20px;
-            margin-bottom: 20px;
+            gap: 24px;
+            margin: 24px 0;
+            flex-wrap: wrap;
         }
 
-        .checkbox-group {
+        .checkbox-wrapper {
             display: flex;
             align-items: center;
-            gap: 8px;
-        }
-
-        .checkbox-group input[type="checkbox"] {
-            width: 16px;
-            height: 16px;
-            accent-color: #0d99ff;
-            cursor: pointer;
-        }
-
-        .checkbox-group label {
-            font-size: 13px;
-            color: #444;
+            gap: 10px;
             cursor: pointer;
             user-select: none;
         }
 
-        .btn-group {
+        .checkbox-wrapper input {
+            display: none;
+        }
+
+        .checkbox-custom {
+            width: 22px;
+            height: 22px;
+            border: 2px solid var(--accent-secondary);
+            border-radius: 6px;
             display: flex;
-            gap: 10px;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.2s ease;
+        }
+
+        .checkbox-wrapper input:checked + .checkbox-custom {
+            background: var(--accent-purple);
+            border-color: var(--accent-purple);
+        }
+
+        .checkbox-custom svg {
+            width: 14px;
+            height: 14px;
+            stroke: var(--white);
+            stroke-width: 3;
+            opacity: 0;
+            transition: opacity 0.2s ease;
+        }
+
+        .checkbox-wrapper input:checked + .checkbox-custom svg {
+            opacity: 1;
+        }
+
+        .checkbox-label {
+            font-size: 0.9375rem;
+            color: var(--text-paragraph);
+        }
+
+        /* Buttons */
+        .button-group {
+            display: flex;
+            gap: 12px;
+            flex-wrap: wrap;
         }
 
         .btn {
-            padding: 10px 20px;
-            font-size: 14px;
-            font-weight: 500;
-            border: none;
-            border-radius: 8px;
-            cursor: pointer;
-            transition: all 0.15s;
+            padding: 14px 28px;
             font-family: inherit;
+            font-size: 1rem;
+            font-weight: 600;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            border: none;
         }
 
         .btn-primary {
-            background: #0d99ff;
-            color: white;
+            background: var(--accent-purple);
+            color: var(--white);
         }
 
-        .btn-primary:hover {
-            background: #0b87e0;
+        .btn-primary:hover:not(:disabled) {
+            background: #8b6af5;
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-md);
         }
 
-        .btn-primary:active {
-            background: #0a78c8;
+        .btn-primary:active:not(:disabled) {
+            transform: translateY(0);
         }
 
         .btn-primary:disabled {
-            background: #ccc;
+            opacity: 0.6;
             cursor: not-allowed;
         }
 
         .btn-secondary {
             background: transparent;
-            color: #666;
-            border: 1px solid #e5e5e5;
+            color: var(--text-paragraph);
+            border: 2px solid rgba(148, 161, 178, 0.2);
         }
 
         .btn-secondary:hover {
-            background: #f5f5f5;
-            border-color: #ddd;
+            border-color: var(--accent-purple);
+            color: var(--accent-purple);
         }
 
+        /* Loading State */
         .loading {
             display: none;
+            flex-direction: column;
             align-items: center;
-            gap: 12px;
-            padding: 16px;
-            background: #f0f9ff;
-            border-radius: 8px;
-            margin-top: 20px;
-            border: 1px solid #d0ebff;
+            gap: 16px;
+            padding: 40px;
         }
 
         .loading.show {
@@ -198,12 +258,12 @@
         }
 
         .spinner {
-            width: 18px;
-            height: 18px;
-            border: 2px solid #d0ebff;
-            border-top-color: #0d99ff;
+            width: 48px;
+            height: 48px;
+            border: 4px solid rgba(127, 90, 240, 0.2);
+            border-top-color: var(--accent-purple);
             border-radius: 50%;
-            animation: spin 0.7s linear infinite;
+            animation: spin 1s linear infinite;
         }
 
         @keyframes spin {
@@ -211,27 +271,29 @@
         }
 
         .loading-text {
-            font-size: 13px;
-            color: #0d7dd9;
+            font-size: 0.9375rem;
+            color: var(--text-paragraph);
+            opacity: 0.8;
         }
 
+        /* Error Message */
         .error {
             display: none;
-            padding: 14px 16px;
-            background: #fff5f5;
-            border: 1px solid #ffccc7;
-            border-radius: 8px;
-            color: #cf1322;
-            font-size: 13px;
-            margin-top: 20px;
+            padding: 16px 20px;
+            background: rgba(127, 90, 240, 0.1);
+            border: 1px solid var(--accent-purple);
+            border-radius: 10px;
+            color: var(--accent-purple);
+            font-size: 0.9375rem;
+            margin-bottom: 24px;
         }
 
         .error.show {
             display: block;
         }
 
+        /* Result Card */
         .result {
-            margin-top: 24px;
             display: none;
         }
 
@@ -239,177 +301,263 @@
             display: block;
         }
 
-        .result-card {
-            background: white;
-            border-radius: 12px;
-            border: 1px solid #e5e5e5;
-            overflow: hidden;
-        }
-
         .result-header {
             display: flex;
-            align-items: center;
             justify-content: space-between;
-            padding: 14px 20px;
-            background: #fafafa;
-            border-bottom: 1px solid #e5e5e5;
+            align-items: center;
+            margin-bottom: 20px;
         }
 
-        .result-header h3 {
-            font-size: 13px;
+        .result-title {
+            font-size: 1rem;
             font-weight: 600;
-            color: #1e1e1e;
+            color: var(--text-headline);
             text-transform: uppercase;
-            letter-spacing: 0.5px;
+            letter-spacing: 0.05em;
         }
 
         .copy-btn {
-            padding: 6px 12px;
-            font-size: 12px;
-            font-weight: 500;
-            background: white;
-            border: 1px solid #e5e5e5;
-            border-radius: 6px;
-            cursor: pointer;
-            transition: all 0.15s;
+            padding: 8px 16px;
             font-family: inherit;
-            color: #444;
+            font-size: 0.875rem;
+            font-weight: 500;
+            background: var(--accent-green);
+            color: var(--bg-card);
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.2s ease;
         }
 
         .copy-btn:hover {
-            background: #f5f5f5;
-            border-color: #ddd;
+            background: #3fc98a;
         }
 
         .copy-btn.copied {
-            background: #f0fff4;
-            border-color: #1bc47d;
-            color: #1bc47d;
+            background: var(--accent-purple);
+            color: var(--white);
         }
 
         .result-content {
-            padding: 20px;
-            font-size: 14px;
+            background: var(--bg-main);
+            padding: 24px;
+            border-radius: 12px;
+            color: var(--text-headline);
+            font-size: 0.9375rem;
             line-height: 1.7;
             white-space: pre-wrap;
-            word-break: break-word;
-            max-height: 400px;
+            word-wrap: break-word;
+            max-height: 500px;
             overflow-y: auto;
-            color: #333;
+            border: 1px solid rgba(148, 161, 178, 0.1);
         }
 
         .result-meta {
-            padding: 14px 20px;
-            background: #fafafa;
-            border-top: 1px solid #e5e5e5;
-            font-size: 12px;
-            color: #666;
+            display: flex;
+            gap: 24px;
+            margin-top: 20px;
+            padding-top: 20px;
+            border-top: 1px solid rgba(148, 161, 178, 0.1);
+            flex-wrap: wrap;
         }
 
         .result-meta span {
-            margin-right: 16px;
+            font-size: 0.875rem;
+            color: var(--text-paragraph);
         }
 
         .result-meta strong {
-            color: #444;
-            font-weight: 500;
+            color: var(--accent-green);
+            font-weight: 600;
         }
 
+        /* Jira Link */
+        .jira-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            margin-top: 16px;
+            padding: 12px 20px;
+            background: var(--accent-green);
+            color: var(--bg-card);
+            text-decoration: none;
+            border-radius: 10px;
+            font-weight: 500;
+            transition: all 0.2s ease;
+        }
+
+        .jira-link:hover {
+            background: #3fc98a;
+            transform: translateY(-2px);
+        }
+
+        .jira-link svg {
+            width: 18px;
+            height: 18px;
+        }
+
+        /* Keyboard Hint */
+        .keyboard-hint {
+            font-size: 0.8125rem;
+            color: var(--text-paragraph);
+            opacity: 0.5;
+            margin-top: 16px;
+        }
+
+        kbd {
+            background: rgba(148, 161, 178, 0.1);
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-family: inherit;
+            font-size: 0.75rem;
+        }
+
+        /* Responsive */
         @media (max-width: 600px) {
             .container {
                 padding: 24px 16px;
             }
+
+            .header h1 {
+                font-size: 1.75rem;
+            }
+
+            .card {
+                padding: 24px;
+            }
+
             .options {
                 flex-direction: column;
-                gap: 12px;
+                gap: 16px;
             }
-            .btn-group {
+
+            .button-group {
                 flex-direction: column;
             }
+
             .btn {
                 width: 100%;
+                text-align: center;
+            }
+
+            .result-meta {
+                flex-direction: column;
+                gap: 8px;
             }
         }
     </style>
 </head>
 <body>
     <div class="container">
-        <div class="header">
-            <h1>Jira Ticket Generator - Connected to CSCI</h1>
-            <p></p>
+        <!-- Header -->
+        <header class="header">
+            <h1>Jira Ticket Generator</h1>
             <div class="status">
                 <span class="status-dot" id="statusDot"></span>
-                <span id="statusText">Checking connection...</span>
+                <span id="statusText">Connecting...</span>
             </div>
-        </div>
+        </header>
 
+        <!-- Input Card -->
         <div class="card">
-            <div class="card-body">
-                <div class="input-group">
-                    <label for="request">Describe the ticket to create</label>
-                    <textarea 
-                        id="request" 
-                        placeholder="Example: Create a ticket for implementing user authentication with OAuth2, including login, logout, and session management features..."
-                    ></textarea>
-                </div>
+            <div class="card-label">Describe the ticket</div>
+            
+            <textarea 
+                id="request" 
+                placeholder="Example: Create a ticket for implementing user authentication with OAuth2 and JWT tokens..."
+            ></textarea>
 
-                <div class="options">
-                    <div class="checkbox-group">
-                        <input type="checkbox" id="fastMode">
-                        <label for="fastMode">Fast mode</label>
-                    </div>
-                    <div class="checkbox-group">
-                        <input type="checkbox" id="createInJira">
-                        <label for="createInJira">Create in Jira</label>
-                    </div>
-                </div>
+            <div class="options">
+                <label class="checkbox-wrapper">
+                    <input type="checkbox" id="fastMode">
+                    <span class="checkbox-custom">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                            <polyline points="20 6 9 17 4 12"></polyline>
+                        </svg>
+                    </span>
+                    <span class="checkbox-label">Fast mode</span>
+                </label>
 
-                <div class="btn-group">
-                    <button class="btn btn-primary" id="generateBtn" onclick="generateTicket()">
-                        Generate
-                    </button>
-                    <button class="btn btn-secondary" onclick="clearAll()">
-                        Clear
-                    </button>
-                </div>
-
-                <div class="loading" id="loading">
-                    <div class="spinner"></div>
-                    <span class="loading-text">Agent is processing your request...</span>
-                </div>
-
-                <div class="error" id="error"></div>
+                <label class="checkbox-wrapper">
+                    <input type="checkbox" id="createInJira">
+                    <span class="checkbox-custom">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                            <polyline points="20 6 9 17 4 12"></polyline>
+                        </svg>
+                    </span>
+                    <span class="checkbox-label">Create in Jira</span>
+                </label>
             </div>
+
+            <div class="button-group">
+                <button class="btn btn-primary" id="generateBtn" onclick="generateTicket()">
+                    Generate Ticket
+                </button>
+                <button class="btn btn-secondary" onclick="clearAll()">
+                    Clear
+                </button>
+            </div>
+
+            <p class="keyboard-hint">
+                Press <kbd>Ctrl</kbd> + <kbd>Enter</kbd> to generate
+            </p>
         </div>
 
-        <div class="result" id="result">
-            <div class="result-card">
-                <div class="result-header">
-                    <h3>Generated Ticket</h3>
-                    <button class="copy-btn" onclick="copyResult()">Copy</button>
-                </div>
-                <div class="result-content" id="resultContent"></div>
-                <div class="result-meta" id="resultMeta"></div>
+        <!-- Error Message -->
+        <div class="error" id="error"></div>
+
+        <!-- Loading State -->
+        <div class="loading" id="loading">
+            <div class="spinner"></div>
+            <span class="loading-text">Agent is processing your request...</span>
+        </div>
+
+        <!-- Result Card -->
+        <div class="card result" id="result">
+            <div class="result-header">
+                <span class="result-title">Generated Ticket</span>
+                <button class="copy-btn" onclick="copyResult()">Copy</button>
             </div>
+            
+            <div class="result-content" id="resultContent"></div>
+            
+            <div id="jiraLinkContainer"></div>
+            
+            <div class="result-meta" id="resultMeta"></div>
         </div>
     </div>
 
     <script>
         const API_URL = 'https://jira-agent-rag.onrender.com';
+        let isServerAwake = false;
 
-        async function checkHealth() {
+        async function checkHealth(retries = 3) {
             const dot = document.getElementById('statusDot');
             const text = document.getElementById('statusText');
             
-            try {
-                const res = await fetch(API_URL + '/api/health');
-                const data = await res.json();
-                dot.classList.remove('offline');
-                text.textContent = 'Connected - ' + data.model;
-            } catch (e) {
-                dot.classList.add('offline');
-                text.textContent = 'Connection failed';
+            for (let i = 0; i < retries; i++) {
+                text.textContent = i === 0 ? 'Connecting...' : `Waking up server (${i + 1}/${retries})...`;
+                
+                try {
+                    const controller = new AbortController();
+                    const timeout = setTimeout(() => controller.abort(), 30000);
+                    
+                    const res = await fetch(`${API_URL}/api/health`, { signal: controller.signal });
+                    clearTimeout(timeout);
+                    
+                    const data = await res.json();
+                    dot.classList.remove('offline');
+                    text.textContent = `Connected — ${data.model}`;
+                    isServerAwake = true;
+                    return true;
+                } catch (e) {
+                    if (i === retries - 1) {
+                        dot.classList.add('offline');
+                        text.textContent = 'Server offline — click Generate to wake';
+                    }
+                }
             }
+            return false;
         }
 
         async function generateTicket() {
@@ -431,15 +579,25 @@
             hideError();
             hideResult();
 
+            if (!isServerAwake) {
+                document.querySelector('.loading-text').textContent = 'Waking up server (30-60s on first request)...';
+                await checkHealth(1);
+            }
+            
+            document.querySelector('.loading-text').textContent = 'Agent is processing your request...';
+
             try {
-                const res = await fetch(API_URL + '/api/generate', {
+                const controller = new AbortController();
+                const timeout = setTimeout(() => controller.abort(), 120000);
+                
+                const res = await fetch(`${API_URL}/api/generate`, {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({
-                        request: finalRequest,
-                        fast_mode: fastMode,
-                    }),
+                    body: JSON.stringify({ request: finalRequest, fast_mode: fastMode }),
+                    signal: controller.signal
                 });
+                
+                clearTimeout(timeout);
 
                 if (!res.ok) {
                     const err = await res.json();
@@ -447,10 +605,15 @@
                 }
 
                 const data = await res.json();
+                isServerAwake = true;
                 showResult(data);
 
             } catch (e) {
-                showError(e.message);
+                if (e.name === 'AbortError') {
+                    showError('Request timed out. Server may be waking up — please try again.');
+                } else {
+                    showError(e.message);
+                }
             } finally {
                 showLoading(false);
             }
@@ -475,21 +638,36 @@
             const el = document.getElementById('result');
             const content = document.getElementById('resultContent');
             const meta = document.getElementById('resultMeta');
+            const jiraContainer = document.getElementById('jiraLinkContainer');
 
             let ticketText = data.ticket_text;
             if (Array.isArray(ticketText)) {
-                ticketText = ticketText.map(function(item) {
-                    return typeof item === 'object' ? item.text : item;
-                }).join('\n');
+                ticketText = ticketText.map(item => typeof item === 'object' ? item.text : item).join('\n');
             }
 
             content.textContent = ticketText || 'No ticket generated';
             
-            const elapsed = (data.metadata && data.metadata.elapsed_seconds || 0).toFixed(1);
-            
-            meta.innerHTML = '<span><strong>Steps:</strong> ' + (data.iterations || 0) + '</span>' +
-                '<span><strong>Style:</strong> ' + (data.style_detected || 'auto') + '</span>' +
-                '<span><strong>Time:</strong> ' + elapsed + 's</span>';
+            const elapsed = (data.metadata?.elapsed_seconds || 0).toFixed(1);
+            meta.innerHTML = `
+                <span><strong>Steps:</strong> ${data.iterations || 0}</span>
+                <span><strong>Style:</strong> ${data.style_detected || 'auto'}</span>
+                <span><strong>Time:</strong> ${elapsed}s</span>
+            `;
+
+            if (data.jira_key && data.jira_url) {
+                jiraContainer.innerHTML = `
+                    <a href="${data.jira_url}" target="_blank" class="jira-link">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path>
+                            <polyline points="15 3 21 3 21 9"></polyline>
+                            <line x1="10" y1="14" x2="21" y2="3"></line>
+                        </svg>
+                        Open ${data.jira_key} in Jira
+                    </a>
+                `;
+            } else {
+                jiraContainer.innerHTML = '';
+            }
 
             el.classList.add('show');
         }
@@ -506,18 +684,18 @@
 
         function copyResult() {
             const text = document.getElementById('resultContent').textContent;
-            navigator.clipboard.writeText(text).then(function() {
+            navigator.clipboard.writeText(text).then(() => {
                 const btn = document.querySelector('.copy-btn');
-                btn.textContent = 'Copied';
+                btn.textContent = 'Copied!';
                 btn.classList.add('copied');
-                setTimeout(function() {
+                setTimeout(() => {
                     btn.textContent = 'Copy';
                     btn.classList.remove('copied');
                 }, 2000);
             });
         }
 
-        checkHealth();
+        checkHealth(3);
         
         document.getElementById('request').addEventListener('keydown', function(e) {
             if (e.ctrlKey && e.key === 'Enter') {
